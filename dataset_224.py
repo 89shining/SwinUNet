@@ -141,7 +141,7 @@ with open(os.path.join(list_dir, "train.txt"), "w") as f:
 with open(os.path.join(list_dir, "val.txt"), "w") as f:
     f.writelines([f"{x}\n" for x in val_list])
 
-with open(os.path.join(list_dir, "test_vol.txt"), "w") as f:
+with open(os.path.join(list_dir, "test.txt"), "w") as f:
     f.writelines([f"{x}\n" for x in test_list])
 
 print("✅ 数据准备完成！")

@@ -66,8 +66,17 @@ def test_single_volume(image, label, net, classes, patch_size=[256, 256],
     测试单个病例，并自动将预测结果恢复至原始CT尺寸保存为nii.gz。
     """
 
-    image, label = image.squeeze(0).cpu().detach().numpy().squeeze(0), \
-                   label.squeeze(0).cpu().detach().numpy().squeeze(0)
+    # 安全去除 batch 和通道维度
+    image = image.cpu().detach().numpy()
+    label = label.cpu().detach().numpy()
+
+    # 若形状是 [1, D, H, W] 或 [1, 1, D, H, W]
+    if image.ndim == 5:
+        image = image[0, 0]
+        label = label[0, 0]
+    elif image.ndim == 4:
+        image = image[0]
+        label = label[0]
 
     # ==== 读取原始图像的尺寸信息 ====
     ref_path = os.path.join("/home/wusi/SAMdata/20250711_GTVp/datanii/test_nii", case, "image.nii.gz")
